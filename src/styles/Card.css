@@ -1,0 +1,370 @@
+/* Card Base */
+.card {
+  width: 1000px;
+  height: 750px;
+  background: url('/images/background.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Top Navigation */
+.top-nav {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 10;
+}
+
+.home-btn {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-bar {
+  background: rgba(240, 240, 240, 0.9);
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  backdrop-filter: blur(5px);
+}
+
+.settings-btn {
+  cursor: pointer;
+}
+
+/* Section Styles - dimensions now set per section */
+.section {
+  border-radius: 12px;
+  position: absolute;
+}
+
+.section-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 6px;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-item {
+  border-radius: 2px;
+  position: relative;
+}
+
+.central-block {
+  grid-column: 2 / span 3;
+  grid-row: 2 / span 3;
+  background: #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-letter {
+  color: white;
+  font-size: 36px; /* smaller so it fits nicely */
+  font-weight: bold;
+}
+
+.white-box {
+  background: white;
+  border: 2px solid;
+}
+
+.green-border {
+  border-color: #4CAF50;
+}
+
+.red-border {
+  border-color: #f44336;
+}
+
+.orange-border {
+  border-color: #FF9800;
+}
+
+/* Clickable slot styles */
+.clickable-slot {
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+  position: relative;
+}
+
+.clickable-slot:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.8), 0 0 30px rgba(76, 175, 80, 0.6);
+  z-index: 10;
+}
+
+.clickable-slot:hover .slot-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.clickable-slot:active {
+  transform: scale(0.95);
+}
+
+/* Tooltip styles - matching the design */
+.slot-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 2px;
+  background: white;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 18px;
+  border: 1.5px solid #1a1a1a;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.slot-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid white;
+  border-bottom: none;
+}
+
+.slot-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #1a1a1a;
+  border-bottom: none;
+}
+
+/* Absolute positions and dimensions from dynamic configuration values */
+.section-g { 
+  top: 72px; 
+  left: -5px; 
+  width: 175px; 
+  height: 189px; 
+}
+
+.section-a { 
+  top: 319px; 
+  left: -5px; 
+  width: 180px; 
+  height: 189px; 
+}
+
+.section-b { 
+  top: 72px; 
+  left: 800px; 
+  width: 186px; 
+  height: 195px; 
+}
+
+.section-h { 
+  top: 319px; 
+  left: 800px; 
+  width: 186px; 
+  height: 190px; 
+}
+
+.section-j { 
+  top: 285px; 
+  left: 512px; 
+  width: 200px; 
+  height: 195px; 
+}
+
+.section-i { 
+  top: 526px; 
+  left: 778px; 
+  width: 197px; 
+  height: 200px; 
+}
+
+.section-c { 
+  top: 72px; 
+  left: 238px; 
+  width: 200px; 
+  height: 189px; 
+}
+
+.section-d { 
+  top: 72px; 
+  left: 530px; 
+  width: 200px; 
+  height: 189px; 
+}
+
+.section-e { 
+  top: 319px; 
+  left: 235px; 
+  width: 208px; 
+  height: 189px; 
+}
+
+.section-f { 
+  top: 585px; 
+  left: 535px; 
+  width: 198px; 
+  height: 192px; 
+}
+
+.section-i { 
+  top: 585px; 
+  left: 790px; 
+  width: 198px; 
+  height: 192px; 
+}
+
+.section-j { 
+  top: 319px; 
+  left: 535px; 
+  width: 198px; 
+  height: 192px; 
+}
+
+/* Dynamic Location Marker */
+.old-location-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.location-pin {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  animation: pinPulse 1s infinite alternate;
+}
+
+.pin-icon {
+  font-size: 20px;
+}
+
+.location-text {
+  color: white;
+  font-weight: bold;
+  margin-top: 8px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  text-align: center;
+  font-size: 12px;
+}
+
+@keyframes pinPulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  to {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  }
+}
+
+/* Navigation Line */
+.navigation-line {
+  overflow: visible;
+}
+
+.navigation-line svg {
+  filter: drop-shadow(0 2px 4px rgba(255, 0, 0, 0.3));
+}
+
+.marker-text {
+  color: white;
+  font-weight: bold;
+  margin-top: 8px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+/* Legend */
+.legend {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.legend-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: white;
+}
+
+.legend-box.green-border {
+    border: 2px solid #4CAF50;
+}
+.legend-box.orange-border {
+  border: 2px solid #FF9800;
+}
+.legend-box.red-border {
+  border: 2px solid #f44336;
+}

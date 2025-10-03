@@ -1,0 +1,378 @@
+/* Memorial Hover Card Overlay */
+.memorial-hover-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 10000;
+  pointer-events: none; /* Allow clicks to pass through overlay */
+}
+
+/* Navigation Arrows - Hidden for tooltip style */
+.nav-arrow {
+  display: none;
+}
+
+.bottom-nav-arrow {
+  display: none;
+}
+
+/* Main Card Container */
+.memorial-card-container {
+  background: white;
+  border-radius: 8px;
+  width: 180px;
+  height: 250px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tooltip Arrow */
+.memorial-card-container::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+/* Memorial Plaque */
+.memorial-plaque {
+  background: url('/images/tombstone1.png') no-repeat center center;
+  background-size: cover;
+  border: 3px solid #FFD700;
+  border-radius: 6px;
+  width: 100%;
+  height: 130px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Gold Corner Decorations */
+.corner-decoration {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #FFD700 0%, #FFA500 70%, transparent 100%);
+  z-index: 10;
+}
+
+.corner-top-left {
+  top: 12px;
+  left: 12px;
+  clip-path: polygon(0 0, 100% 0, 30% 30%, 0 100%);
+}
+
+.corner-top-right {
+  top: 12px;
+  right: 12px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 30%);
+}
+
+.corner-bottom-left {
+  bottom: 12px;
+  left: 12px;
+  clip-path: polygon(0 100%, 30% 70%, 100% 100%, 0 100%);
+}
+
+.corner-bottom-right {
+  bottom: 12px;
+  right: 12px;
+  clip-path: polygon(70% 70%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Gold Elements */
+.gold-cross {
+  font-size: 20px;
+  color: #FFD700;
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+}
+
+.praying-hands {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.memorial-quote {
+  color: white;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-family: 'Times New Roman', serif;
+  font-weight: 300;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  line-height: 1.3;
+}
+
+.plaque-name {
+  color: #FFD700;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'Times New Roman', serif;
+  margin-bottom: 12px;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.plaque-dates {
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  font-family: 'Times New Roman', serif;
+  line-height: 1.4;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+.birth-date {
+  margin-bottom: 2px;
+}
+
+.death-date {
+  margin-top: 2px;
+}
+
+/* Text Below Plaque */
+.below-plaque-text {
+  margin: 0 0 12px 0;
+  text-align: center;
+  flex: 1;
+}
+
+.main-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  font-family: Arial, sans-serif;
+  margin-bottom: 6px;
+}
+
+.date-range {
+  font-size: 12px;
+  color: #000;
+  font-family: Arial, sans-serif;
+  line-height: 1.4;
+}
+
+.date-range div {
+  margin-bottom: 2px;
+}
+
+/* See More Button */
+.see-more-btn {
+  background: #2E7D32;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: Arial, sans-serif;
+  width: 120px;
+}
+
+.see-more-btn:hover {
+  background: #1B5E20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .memorial-card-container {
+    width: 220px;
+    height: 340px;
+    padding: 15px;
+  }
+  
+  .memorial-plaque {
+    height: 180px;
+    padding: 15px 12px;
+  }
+  
+  .nav-arrow {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .nav-arrow-left {
+    left: 20px;
+  }
+  
+  .nav-arrow-right {
+    right: 20px;
+  }
+  
+  .arrow-icon {
+    font-size: 20px;
+  }
+  
+  .memorial-quote {
+    font-size: 11px;
+  }
+  
+  .plaque-name {
+    font-size: 16px;
+  }
+  
+  .main-name {
+    font-size: 18px;
+  }
+  
+  .date-range {
+    font-size: 12px;
+  }
+}
+
+/* Detailed Memorial Card */
+.detailed-memorial-card {
+  background: white;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 320px;
+  padding: 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+/* Detailed Memorial Plaque */
+.detailed-plaque {
+  background: black;
+  border: 2px solid #333;
+  border-radius: 6px;
+  width: 100%;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.plaque-icon {
+  font-size: 24px;
+  color: #FFD700;
+  margin-bottom: 8px;
+}
+
+.plaque-quote {
+  color: white;
+  font-size: 11px;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 12px;
+  font-family: 'Times New Roman', serif;
+}
+
+.plaque-name {
+  color: #FFD700;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+  font-family: 'Times New Roman', serif;
+}
+
+.plaque-dates {
+  color: #FFD700;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 4px;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Card Content */
+.card-content {
+  padding: 16px;
+}
+
+.card-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+
+.info-label {
+  font-weight: bold;
+  color: black;
+  min-width: 80px;
+  margin-right: 8px;
+}
+
+.info-value {
+  color: black;
+  flex: 1;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  padding: 16px;
+  gap: 12px;
+}
+
+.cancel-btn {
+  background: #ccc;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #bbb;
+}
+
+.go-now-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.go-now-btn:hover {
+  background: #45a049;
+}

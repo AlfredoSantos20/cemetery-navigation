@@ -1,0 +1,20 @@
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles with Background Image */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: url('/images/background.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+}
