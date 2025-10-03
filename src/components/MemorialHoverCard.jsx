@@ -28,30 +28,26 @@ const MemorialHoverCard = ({ isVisible, onClose, onNavigate, x, y }) => {
         >
           {/* Memorial Plaque */}
           <div className="detailed-plaque">
-            <div className="plaque-icon">⛪</div>
-            <div className="plaque-quote">"Your memories will remain in our hearts"</div>
-            <div className="plaque-name">Gabriel Adrena</div>
-            <div className="plaque-dates">June 10, 1948</div>
-            <div className="plaque-dates">Feb 25, 2018</div>
+            <img src="/images/tombstone1.png" alt="tombstone" className="tombstone-image" />
           </div>
 
           {/* Card Content */}
           <div className="card-content">
-            <div className="card-name">Gabriel Adrena</div>
+            <div className="card-name">Erlinda Ajeda</div>
             
             <div className="info-row">
               <span className="info-label">Birth:</span>
-              <span className="info-value">June 10, 1948</span>
+              <span className="info-value">November 28 1950</span>
             </div>
             
             <div className="info-row">
               <span className="info-label">Death:</span>
-              <span className="info-value">February 25, 2018</span>
+              <span className="info-value">September 09, 2013</span>
             </div>
             
             <div className="info-row">
               <span className="info-label">Gender:</span>
-              <span className="info-value">Male</span>
+              <span className="info-value">Female</span>
             </div>
             
             <div className="info-row">
