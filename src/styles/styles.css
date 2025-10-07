@@ -553,7 +553,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     opacity: 0;
     transform: translateY(-10px);
-    transition. all 0.3s ease;
+    transition: all 0.3s ease;
     pointer-events: none;
     z-index: 25;
 }

@@ -6,6 +6,19 @@ const Card = () => {
   const [hoverCard, setHoverCard] = useState({ visible: false, x: 0, y: 0, section: null, slot: null })
   const [targetPosition, setTargetPosition] = useState(null)
   const [isNavigating, setIsNavigating] = useState(false)
+  const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [recentSearches, setRecentSearches] = useState(['Erlinda Ajeda', 'Section A', 'Pedro Dela Pena', 'Gabriel Adrena'])
+  const [selectedCluster, setSelectedCluster] = useState('A')
+  const [selectedRow, setSelectedRow] = useState('All')
+  const [filteredMemorials, setFilteredMemorials] = useState([])
+
+  // Check if there are any red-border slots in the grid
+  const hasRedBorderSlots = () => {
+    const redBorderElements = document.querySelectorAll('.red-border')
+    return redBorderElements.length > 0
+  }
 
   const handleSlotClick = (event) => {
     event.stopPropagation()
@@ -35,6 +48,295 @@ const Card = () => {
     setHoverCard({ visible: false, x: 0, y: 0, section: null, slot: null })
     setTargetPosition(null)
   }
+
+  const handleSearchBarClick = () => {
+    setIsSearchDropdownOpen(!isSearchDropdownOpen)
+  }
+
+  const handleSearchDropdownClose = () => {
+    setIsSearchDropdownOpen(false)
+  }
+
+  // Cemetery sections data for search
+  const cemeterySections = [
+    { id: 'A', name: 'Section A', availableSlots: 5, totalSlots: 16, position: 'Top Center-Left' },
+    { id: 'B', name: 'Section B', availableSlots: 5, totalSlots: 16, position: 'Top Center-Right' },
+    { id: 'C', name: 'Section C', availableSlots: 5, totalSlots: 16, position: 'Top Left-Center' },
+    { id: 'D', name: 'Section D', availableSlots: 5, totalSlots: 16, position: 'Top Right-Center' },
+    { id: 'E', name: 'Section E', availableSlots: 5, totalSlots: 16, position: 'Bottom Left-Center' },
+    { id: 'F', name: 'Section F', availableSlots: 5, totalSlots: 16, position: 'Bottom Right-Center' },
+    { id: 'G', name: 'Section G', availableSlots: 5, totalSlots: 16, position: 'Top Left' },
+    { id: 'H', name: 'Section H', availableSlots: 5, totalSlots: 16, position: 'Top Right' },
+    { id: 'I', name: 'Section I', availableSlots: 5, totalSlots: 16, position: 'Bottom Center-Right' },
+    { id: 'J', name: 'Section J', availableSlots: 5, totalSlots: 16, position: 'Bottom Center-Left' }
+  ]
+
+  // Comprehensive memorial data for search (matching MemorialHoverCard data)
+  const memorialData = [
+    {
+      id: 1,
+      name: "Erlinda Ajeda",
+      birthDate: "November 25, 1950",
+      deathDate: "September 9, 2013",
+      gender: "Female",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster A - Row 4 - Box 5",
+      memorialId: "10008789",
+      section: "A",
+      slot: 5
+    },
+    {
+      id: 2,
+      name: "Pedro Dela Pena",
+      birthDate: "February 12, 1990",
+      deathDate: "November 25, 2023",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster B - Row 2 - Box 3",
+      memorialId: "10008790",
+      section: "B",
+      slot: 3
+    },
+    {
+      id: 3,
+      name: "Patrick Mejica",
+      birthDate: "July 8, 1960",
+      deathDate: "August 15, 1870",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster C - Row 1 - Box 7",
+      memorialId: "10008791",
+      section: "C",
+      slot: 7
+    },
+    {
+      id: 4,
+      name: "Johnny Lukban",
+      birthDate: "December 10, 1971",
+      deathDate: "April 18, 2022",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster D - Row 3 - Box 2",
+      memorialId: "10008792",
+      section: "D",
+      slot: 2
+    },
+    {
+      id: 5,
+      name: "Edita Abad",
+      birthDate: "April 10, 1943",
+      deathDate: "December 13, 2013",
+      gender: "Female",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster E - Row 5 - Box 4",
+      memorialId: "10008793",
+      section: "E",
+      slot: 4
+    },
+    {
+      id: 6,
+      name: "Rosita Ador",
+      birthDate: "October 14, 1942",
+      deathDate: "April 26, 2011",
+      gender: "Female",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster F - Row 2 - Box 6",
+      memorialId: "10008794",
+      section: "F",
+      slot: 6
+    },
+    {
+      id: 7,
+      name: "Gabriel Adrena",
+      birthDate: "June 10, 1948",
+      deathDate: "Feb 25, 2018",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster G - Row 4 - Box 1",
+      memorialId: "10008795",
+      section: "G",
+      slot: 1
+    },
+    {
+      id: 8,
+      name: "Rolando Aguire",
+      birthDate: "September 16, 1970",
+      deathDate: "June 17, 2014",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster H - Row 1 - Box 8",
+      memorialId: "10008796",
+      section: "H",
+      slot: 8
+    },
+    {
+      id: 9,
+      name: "Audie Alviar",
+      birthDate: "January 28, 1928",
+      deathDate: "October 04, 2013",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster I - Row 3 - Box 5",
+      memorialId: "10008797",
+      section: "I",
+      slot: 5
+    },
+    {
+      id: 10,
+      name: "Danilo Alvarez",
+      birthDate: "September 05, 1941",
+      deathDate: "August 01, 2014",
+      gender: "Male",
+      burial: "Manila North Park Cemetery",
+      plot: "Cluster J - Row 2 - Box 9",
+      memorialId: "10008798",
+      section: "J",
+      slot: 9
+    }
+  ]
+
+  const handleSearchInput = (e) => {
+    const query = e.target.value
+    setSearchQuery(query)
+    
+    if (query.trim() === '') {
+      setSearchResults([])
+      return
+    }
+
+    // Search through sections and memorials
+    const sectionResults = cemeterySections.filter(section =>
+      section.name.toLowerCase().includes(query.toLowerCase()) ||
+      section.position.toLowerCase().includes(query.toLowerCase())
+    ).map(section => ({
+      type: 'section',
+      id: section.id,
+      name: section.name,
+      subtitle: `${section.availableSlots} slots available • ${section.position}`,
+      data: section
+    }))
+
+    const memorialResults = memorialData.filter(memorial => {
+      const searchTerm = query.toLowerCase()
+      return (
+        memorial.name.toLowerCase().includes(searchTerm) ||
+        memorial.birthDate.toLowerCase().includes(searchTerm) ||
+        memorial.deathDate.toLowerCase().includes(searchTerm) ||
+        memorial.gender.toLowerCase().includes(searchTerm) ||
+        memorial.burial.toLowerCase().includes(searchTerm) ||
+        memorial.plot.toLowerCase().includes(searchTerm) ||
+        memorial.memorialId.toLowerCase().includes(searchTerm) ||
+        memorial.section.toLowerCase().includes(searchTerm) ||
+        memorial.slot.toString().includes(searchTerm) ||
+        // Search by year ranges
+        memorial.birthDate.includes(searchTerm) ||
+        memorial.deathDate.includes(searchTerm) ||
+        // Search by partial names
+        memorial.name.split(' ').some(part => part.toLowerCase().includes(searchTerm))
+      )
+    }).map(memorial => ({
+      type: 'memorial',
+      id: memorial.id,
+      name: memorial.name,
+      subtitle: `Section ${memorial.section}, Slot ${memorial.slot} • ${memorial.birthDate} - ${memorial.deathDate}`,
+      data: memorial
+    }))
+
+    setSearchResults([...sectionResults, ...memorialResults])
+  }
+
+  const handleSearchResultClick = (result) => {
+    if (result.type === 'section') {
+      // Navigate to section
+      const sectionElement = document.querySelector(`[data-section="${result.id}"]`)
+      if (sectionElement) {
+        sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        // Add visual highlight
+        sectionElement.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)'
+        setTimeout(() => {
+          sectionElement.style.boxShadow = ''
+        }, 2000)
+      }
+    } else if (result.type === 'memorial') {
+      // Navigate to specific memorial
+      const slotElement = document.querySelector(`[data-section="${result.data.section}"][data-slot="${result.data.slot}"]`)
+      if (slotElement) {
+        slotElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        // Trigger click to show memorial card
+        slotElement.click()
+      }
+    }
+
+    // Add to recent searches
+    if (!recentSearches.includes(result.name)) {
+      setRecentSearches(prev => [result.name, ...prev.slice(0, 4)])
+    }
+
+    // Close dropdown
+    setIsSearchDropdownOpen(false)
+    setSearchQuery('')
+    setSearchResults([])
+  }
+
+  const handleRecentSearchClick = (search) => {
+    setSearchQuery(search)
+    handleSearchInput({ target: { value: search } })
+  }
+
+  // Extract row number from plot string (e.g., "Cluster A - Row 4 - Box 5" -> 4)
+  const getRowFromPlot = (plot) => {
+    const match = plot.match(/Row (\d+)/)
+    return match ? parseInt(match[1]) : null
+  }
+
+  // Get available rows for a cluster
+  const getAvailableRows = (cluster) => {
+    const clusterMemorials = memorialData.filter(memorial => memorial.section === cluster)
+    const rows = [...new Set(clusterMemorials.map(memorial => getRowFromPlot(memorial.plot)).filter(Boolean))]
+    return rows.sort((a, b) => a - b)
+  }
+
+  // Filter memorials by cluster and row
+  const filterMemorialsByCluster = (cluster, row) => {
+    let filtered = memorialData.filter(memorial => memorial.section === cluster)
+    
+    if (row !== 'All') {
+      filtered = filtered.filter(memorial => getRowFromPlot(memorial.plot) === parseInt(row))
+    }
+    
+    return filtered.sort((a, b) => {
+      const rowA = getRowFromPlot(a.plot)
+      const rowB = getRowFromPlot(b.plot)
+      if (rowA !== rowB) return rowA - rowB
+      
+      const boxA = parseInt(a.plot.match(/Box (\d+)/)?.[1] || '0')
+      const boxB = parseInt(b.plot.match(/Box (\d+)/)?.[1] || '0')
+      return boxA - boxB
+    })
+  }
+
+  // Handle cluster selection
+  const handleClusterChange = (cluster) => {
+    setSelectedCluster(cluster)
+    setSelectedRow('All') // Reset row when cluster changes
+    const filtered = filterMemorialsByCluster(cluster, 'All')
+    setFilteredMemorials(filtered)
+  }
+
+  // Handle row selection
+  const handleRowChange = (row) => {
+    setSelectedRow(row)
+    const filtered = filterMemorialsByCluster(selectedCluster, row)
+    setFilteredMemorials(filtered)
+  }
+
+  // Initialize filtered memorials when dropdown opens
+  React.useEffect(() => {
+    if (isSearchDropdownOpen && searchQuery.trim() === '') {
+      const filtered = filterMemorialsByCluster(selectedCluster, selectedRow)
+      setFilteredMemorials(filtered)
+    }
+  }, [isSearchDropdownOpen, selectedCluster, selectedRow])
 
   const handleNavigate = () => {
     if (targetPosition) {
@@ -182,18 +484,163 @@ const Card = () => {
       <div className="card" onClick={hideHoverCard}>
       {/* Top Navigation */}
       <div className="top-nav">
-        {/* <div className="home-btn">
+        <div className="home-btn">
           <span className="home-icon">🏠</span>
-        </div> */}
-        {/* <div className="search-bar">
+        </div>
+        <div className="search-bar" onClick={handleSearchBarClick}>
           <span className="search-icon">🔍</span>
           <span className="search-text">Search</span>
-       
-        </div> */}
-        {/* <div className="settings-btn">
+          <svg className="microphone-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1C10.34 1 9 2.34 9 4V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V4C15 2.34 13.66 1 12 1Z" fill="currentColor"/>
+            <path d="M19 10V12C19 15.87 15.87 19 12 19C8.13 19 5 15.87 5 12V10H3V12C3 16.97 7.03 21 12 21C16.97 21 21 16.97 21 12V10H19Z" fill="currentColor"/>
+            <path d="M11 22H13V24H11V22Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div className="settings-btn">
           <span className="gear-icon">⚙️</span>
-        </div> */}
+        </div>
       </div>
+
+      {/* Search Dropdown */}
+      {isSearchDropdownOpen && (
+        <>
+          {/* Backdrop Overlay */}
+          <div className="search-backdrop" onClick={handleSearchDropdownClose}></div>
+          
+          {/* Search Dropdown */}
+          <div className="search-dropdown">
+            <div className="search-dropdown-content">
+            {/* Search Input */}
+            <div className="search-input-container">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search sections, memorials..."
+                value={searchQuery}
+                onChange={handleSearchInput}
+                autoFocus
+              />
+            </div>
+
+            {/* Search Results or Sections */}
+            {searchQuery.trim() !== '' ? (
+              <div className="search-results">
+                {searchResults.length > 0 ? (
+                  searchResults.map((result, index) => (
+                    <div
+                      key={`${result.type}-${result.id}`}
+                      className="search-result-item"
+                      onClick={() => handleSearchResultClick(result)}
+                    >
+                      <div className="result-icon">
+                        {result.type === 'section' ? '📍' : '🪦'}
+                      </div>
+                      <div className="result-content">
+                        <div className="result-name">{result.name}</div>
+                        <div className="result-subtitle">{result.subtitle}</div>
+                        {result.type === 'memorial' && (
+                          <div className="result-details">
+                            <span className="detail-item">ID: {result.data.memorialId}</span>
+                            <span className="detail-item">•</span>
+                            <span className="detail-item">{result.data.gender}</span>
+                            <span className="detail-item">•</span>
+                            <span className="detail-item">{result.data.plot}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="no-results">No results found for "{searchQuery}"</div>
+                )}
+              </div>
+            ) : (
+              <>
+                {/* Recent Searches */}
+                <div className="search-section">
+                  <h3 className="search-section-title">Recent Searches</h3>
+                  <div className="recent-searches">
+                    {recentSearches.map((search, index) => (
+                      <div
+                        key={index}
+                        className="recent-search-item"
+                        onClick={() => handleRecentSearchClick(search)}
+                      >
+                        <span className="recent-search-icon">🕒</span>
+                        <span className="recent-search-text">{search}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="search-divider"></div>
+                {/* Search By Cluster */}
+                <div className="search-section">
+                  <h3 className="search-section-title">Search By Cluster</h3>
+                  
+                  {/* Cluster and Row Dropdowns */}
+                  <div className="cluster-filters">
+                    <div className="filter-group">
+                      <label className="filter-label">Cluster :</label>
+                      <select 
+                        className="filter-dropdown"
+                        value={selectedCluster}
+                        onChange={(e) => handleClusterChange(e.target.value)}
+                      >
+                        {cemeterySections.map((section) => (
+                          <option key={section.id} value={section.id}>
+                            {section.id}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="filter-group">
+                      <label className="filter-label">Row :</label>
+                      <select 
+                        className="filter-dropdown"
+                        value={selectedRow}
+                        onChange={(e) => handleRowChange(e.target.value)}
+                      >
+                        <option value="All">All</option>
+                        {getAvailableRows(selectedCluster).map((row) => (
+                          <option key={row} value={row}>
+                            {row}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Filtered Memorial List */}
+                  <div className="memorial-list">
+                    {filteredMemorials.length > 0 ? (
+                      filteredMemorials.map((memorial) => (
+                        <div
+                          key={memorial.id}
+                          className="memorial-list-item"
+                          onClick={() => handleSearchResultClick({
+                            type: 'memorial',
+                            id: memorial.id,
+                            name: memorial.name,
+                            subtitle: `Section ${memorial.section}, Slot ${memorial.slot} • ${memorial.birthDate} - ${memorial.deathDate}`,
+                            data: memorial
+                          })}
+                        >
+                          <div className="memorial-name">{memorial.name}</div>
+                          <div className="memorial-plot">{memorial.plot}</div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="no-memorials">No memorials found in {selectedCluster}{selectedRow !== 'All' ? ` Row ${selectedRow}` : ''}</div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+        </>
+      )}
 
       {/* All 6 Sections positioned over background plots */}
       {/* Section G (Top Left) */}
@@ -357,21 +804,31 @@ const Card = () => {
       {/* Legend */}
       <div className="legend">
         <div className="legend-title">LEGEND</div>
-        <div className="legend-item">
-          <div className="legend-box green-border"></div>
-          <span>- all slots available</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-box orange-border"></div>
-          <span>- some slots available</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-box red-border"></div>
-          <span>- no slots available</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-box home-btn">🏠</div>
-          <span>- home button</span>
+        <div className="legend-content">
+          <div className="legend-row">
+            <div className="legend-column">
+              <div className="legend-item">
+                <div className="legend-box green-border"></div>
+                <span>- all slots available</span>
+              </div>
+              <div className="legend-item">
+                <div className="legend-box orange-border"></div>
+                <span>- some slots available</span>
+              </div>
+              {hasRedBorderSlots() && (
+                <div className="legend-item">
+                  <div className="legend-box red-border"></div>
+                  <span>- no slots available</span>
+                </div>
+              )}
+            </div>
+            <div className="legend-column">
+              <div className="legend-item">
+                <div className="legend-box home-btn">🏠</div>
+                <span>- home button</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
